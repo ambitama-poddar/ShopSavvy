@@ -5,12 +5,15 @@ from werkzeug.utils import secure_filename
 from serpapi import GoogleSearch
 from flask import flash
 
+from application import app, db, login_manager, mail
+from application.auth import register, login, logout
 
 UPLOAD_FOLDER = "uploads"
-
-app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
+app.route('/register', methods=['GET', 'POST'])(register)
+app.route('/login', methods=['GET', 'POST'])(login)
+app.route('/logout')(logout)
 
 def upload_image(image_path):
     try:
